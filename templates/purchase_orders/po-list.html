@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Purchase Orders</h1> 
+
+
+
+<a href="{% url 'purchase_orders:create-po' %}">Add Purchase Order</a>
+
+<p><ul>
+    {% for x in  object_list %}
+    <li><a href='{{ x.get_absolute_url }}'>{{ x.vendor }} / {{ x.invoice_date }}</a></li>
+    {% endfor %}
+    </ul></p>
+
+
+
+
+
+
+{% endblock content %}

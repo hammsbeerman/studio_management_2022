@@ -1,0 +1,10 @@
+<h1>{{ object.vendor }}</h1>{% if object.get_edit_url %}<small><a href='{{ object.get_edit_url }}'>Edit</a></small><br/>{% endif %}
+Invoice Date: {{ object.invoice_date}}<br/>
+Category: {{object.category }}<br/>
+Manufacturer: {{ object.manufacturer }}
+<p>Description: {{ object.description }}<br/>
+Primary Vendor: {{ object.primary_vendor }}<br />
+Unit of Measurement: {{ object.measurement }}<br/>
+
+<p>Created: {{object.date_added}} - Updated: {{object.date_updated}}</p>
+Active: {{ object.active }}

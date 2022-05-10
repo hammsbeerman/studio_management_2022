@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .contact-form{
+        border-bottom: 1px solid black;
+    }
+    .hidden{
+        display: none
+    }
+</style>
+
+<h1>Add / Update Master Part Number</h1> 
+<br/><a href='{{ object.get_absolute_url }}'>Back to Details</a></small><br/>
+
+
+<div style='margin-top:30px;'>
+
+    {% include 'inventory/partials/forms.html' %}
+
+    {% if titles %}
+        <h3>Past Vendors</h3>
+        {% for vendor in object.get_vendor_children %}
+            {% include 'inventory/partials/vendor-inline.html' with object=name %}
+        {% endfor %}
+        {% if new_vendor_url %}
+        <div id='vendor-create'>
+
+        </div>
+
+
+        <button hx-get="{{ new_vendor_url }}" hx-trigger='click' hx-target='#vendor-create' hx-swap='beforeend'>Add</button>
+        {% endif %}
+    {% endif %}
+
+</div>
+
+
+{% endblock content %}

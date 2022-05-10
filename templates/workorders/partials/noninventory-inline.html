@@ -1,0 +1,4 @@
+<div id="noninventory-{{ object.id }}">
+    {{ object.item }}
+    <button hx-trigger='click' hx-get='{{ object.get_hx_edit_url }}' hx-target="#noninventory-{{ object.id }}">Edit</button>
+</div>

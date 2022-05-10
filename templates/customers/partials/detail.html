@@ -1,0 +1,19 @@
+<h1>{{ object.name }}</h1>{% if object.get_edit_url %}<small><a href='{{ object.get_edit_url }}'>Edit</a></small><br/>{% endif %}
+Phone 1:{{ object.phone1}} / Phone 2: {{ object.phone2}}
+<p>Address:{{ object.address1}}<br/>
+Address 2:{{ object.address2}}<br />
+<p>{{ object.city}}, {{object.state}} {{object.zipcode}}</p>
+Email: {{ object.email }}<br/>
+Website: {{ object.website}}<br/>
+<p>Created: {{object.created}} - Updated: {{object.updated}}</p>
+
+{% for contact in object.get_contacts_children %}
+    <h3> {{ contact.fname }} {{ contact.lname }}</h3>
+    <p> {{ contact.phone1 }}<br />
+    {{ contact.email }}
+{% endfor %}
+<p>
+    Workorders</p>
+{% for workorder in object.get_workorders_children %}
+    <p><a href="/workorders/{{ workorder.workorder }}">{{ workorder.workorder }} - {{ workorder.description }}</a></small><br/>
+{% endfor %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Master Part Numbers</h1> 
+
+
+
+<a href="{% url 'inventory:create-mpn' %}">Add Master Part Number</a>
+
+<p><ul>
+    {% for x in  object_list %}
+    <li><a href='{{ x.get_absolute_url }}'>{{ x.internal_part_number }} / {{ x.name }}</a></li>
+    {% endfor %}
+    </ul></p>
+
+
+
+
+
+
+{% endblock content %}

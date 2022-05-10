@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">{LK}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Admin</a>
+            </li>
+            {% endif %}
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+  
+  
+  
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="">Timecard #</a>
+          </li> 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'customers:list' %}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Customers
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="{% url 'customers:list' %}">Customer List</a></li>
+              <li><a class="dropdown-item" href="{% url 'customers:create' %}">Add Customer</a></li>
+              <!-- <li><a class="dropdown-item" href="">Add Customer Contact</a></li> -->
+            </ul> 
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Vendors
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="{% url 'vendors:list' %}">Vendor List</a></li>
+              <li><a class="dropdown-item" href="{% url 'vendors:create' %}">Add Vendor</a></li>
+
+              <!-- <li><a class="dropdown-item" href="">Add Customer Contact</a></li> -->
+            </ul> 
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Inventory
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="">Inventory List #</a></li>
+              <li><a class="dropdown-item" href="{% url 'purchase_orders:create-po' %}">Add Purchase Order</a></li>
+              <li><a class="dropdown-item" href="{% url 'purchase_orders:po-list' %}">Purchase Order List</a></li>
+              <!-- <li><a class="dropdown-item" href="">Add Customer Contact</a></li> -->
+            </ul> 
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Admin
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="{% url 'inventory:category-list' %}">Inventory Category List</a></li>
+              <li><a class="dropdown-item" href="">Add / Update Inventory Category #</a></li>
+              <li><a class="dropdown-item" href="{% url 'inventory:mpn-list' %}">Master Part Number List</a></li>
+              <li><a class="dropdown-item" href="{% url 'inventory:create-mpn' %}">Add Master Part Number</a></li>
+              
+              <!-- <li><a class="dropdown-item" href="">Add Customer Contact</a></li> -->
+            </ul> 
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Workorders
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="{% url 'workorders:createbase' %}">Add Workorder</a></li>
+              <li><a class="dropdown-item" href="{% url 'workorders:list' %}">Workorder List</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Scratch Area
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Dynamic Customer</a></li>
+              <li><a class="dropdown-item" href="#">Add Workorder</a></li>
+              <li><a class="dropdown-item" href="#">Custom Form</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  

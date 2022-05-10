@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+
+{% block content %}
+
+{{ form.customer.label_tag }}
+{% render_field form.customer class="custom-select mb-4" autocomplete="off" hx-get="/scratch/contact/" hx-target="#id_contact" %}
+
+{{ form.contact.label_tag }}
+{% render_field form.contact class="custom-select mb-4" autocomplete="off" %}
+
+
+
+{% endblock content %}

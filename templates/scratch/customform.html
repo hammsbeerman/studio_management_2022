@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% if not created %}
+customer, contact, workorder, description, deadline, budget, quoted_price
+{% endif %}
+<div>
+    <form action='/scratch/custom/' method="POST">
+        {% csrf_token %}
+        
+        <select class="custom-select mb-4" name='customer'>
+            <option selected> Customers</option>
+            {% for customer in customers %}
+                <option value="{{customer.name}}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <div><input type='text' name='workorder' placeholder='Workorder' /></div>
+        <div><textarea name='description' placeholder='Description'></textarea></div>
+        <div><input type='text' name='deadline' /></div>
+        <div><input type='text' name='budget' /></div>
+        <div><input type='text' name='quoted_price' /></div>
+        <input type='submit' value='Create Workorder' /></div>
+    </form>
+</div>
+
+{% endblock content %}

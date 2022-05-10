@@ -1,0 +1,23 @@
+<h1>{{ object.workorder }}</h1>{% if object.get_edit_url %}<small><a href='{{ object.get_edit_url }}'>Edit</a></small><br/>{% endif %}
+Customer: {{ object.customer }}<br/>
+Contact: {{ object.contact }}
+
+<p>Description: {{ object.description}}<br/>
+Deadline: {{ object.deadline}}<br />
+Budget: {% if object.budget %}{{ object.budget}}{% endif %}<br />
+Quoted Price: {% if object.quoted_price %}{{object.quoted_price}}{% endif %}
+<p>
+Services</p>
+<p>
+{% for workorderservice in object.get_services_children %}
+    <li>{{ workorderservice.item }} Qty: {{workorderservice.billable_time }} Rate: {{ workorderservice.default_rate }} <br />
+    {{ workorderservice.description }}</li>
+{% endfor %}
+<p>
+<p>Product</p>
+{% for workorderinventoryproduct in object.get_inventory_children %}
+    <p> {{ workorderinventoryproduct.item }} Qty: {{ workorderinventoryproduct.qty }} Price: {{ workorderinventoryproduct.price }} <br />
+{% endfor %}
+{% for workordernoninventoryproduct in object.get_noninventory_children %}
+    <p> {{ workordernoninventoryproduct.item }} Qty: {{ workordernoninventoryproduct.qty }} Price: {{ workordernoninventoryproduct.price }} <br />
+{% endfor %}

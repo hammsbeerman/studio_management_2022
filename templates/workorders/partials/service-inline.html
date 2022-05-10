@@ -1,0 +1,4 @@
+<div id="service-{{ object.id }}">
+    {{ object.item }}
+    <button hx-trigger='click' hx-get='{{ object.get_hx_edit_url }}' hx-target="#service-{{ object.id }}">Edit</button>
+</div>
