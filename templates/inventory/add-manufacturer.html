@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Manufacturer</h1>
+
+<form action = '' method="POST">
+    {% csrf_token %}
+    <input type='name' name='name' placeholder='Manufacturer Name'/>
+    <br />
+    <input type='submit' value="Add Manufacturer" />
+
+
+</form>
+
+{% endblock content %}

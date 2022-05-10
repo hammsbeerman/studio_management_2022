@@ -7,11 +7,13 @@ from .views import (
     mpn_detail_view,
     mpn_detail_hx_view,
     mpn_update_view,
+    manufacturer_create_view
 )
 
 app_name='inventory'
 urlpatterns = [
     path("create-mpn/", mpn_create_view, name='create-mpn'),
+    path("add-manufacturer/", manufacturer_create_view, name='add-manufacturer'),
     path("mpn/", mpn_list_view, name='mpn-list'),
     path("mpn/<int:id>/", mpn_detail_hx_view, name='hx-mpn-detail'),
     path("<int:id>/", mpn_detail_view, name='mpn-detail'),

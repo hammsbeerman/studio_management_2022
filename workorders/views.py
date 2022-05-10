@@ -241,6 +241,7 @@ def create_base(request):
         deadline = request.POST.get("deadline")
         budget = request.POST.get("budget")
         quoted_price = request.POST.get("quoted_price")
+        workorder = (workorder.upper())
         if customer == "0":
             customers = Customer.objects.all()
             context = {'customers': customers}
@@ -254,7 +255,13 @@ def create_base(request):
         #if contact == 0: -- Contacts are optional at this point
         #    context['error']
         #    return render(request, 'workorders/create-workorder.html', context)   
-        obj = Workorder.objects.create(customer_id=customer, contact_id=contact, workorder=workorder, description=description, deadline=deadline, budget=budget, quoted_price=quoted_price)
+        try:
+            obj = Workorder.objects.create(customer_id=customer, contact_id=contact, workorder=workorder, description=description, deadline=deadline, budget=budget, quoted_price=quoted_price)
+        except:
+            customers = Customer.objects.all()
+            context = {'customers': customers}
+            context['workordererror'] = 'That workorder already exists'
+            return render(request, 'workorders/create-workorder.html', context)
         context['workorder'] = workorder #return workorder number to form
         context['created'] = True
         return redirect(obj.get_edit_url())

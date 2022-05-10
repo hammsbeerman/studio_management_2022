@@ -1,7 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Inventory, NonInventory, Service, ProductCategory, MasterPartNumber
+from .models import Inventory, NonInventory, Service, ProductCategory, MasterPartNumber, Manufacturer
+
+admin.site.register(Manufacturer)
 
 admin.site.register(Inventory)
 

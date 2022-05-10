@@ -50,11 +50,18 @@ class ProductCategory(models.Model):
     def get_absolute_url(self):
         return reverse("inventory:category-list", kwargs={"parent": self.id})
 
+class Manufacturer(models.Model):
+    name = models.CharField('name', blank=False, null=False, max_length=200)
+
+    def __str__(self):
+        return self.name
+
 class MasterPartNumber(models.Model):
     internal_part_number = models.CharField('Master Part Number', blank=False, null=False, max_length=200)
     name = models.CharField('Name', max_length=100, blank=True, null=True)
     category = models.ForeignKey(ProductCategory, blank=True, null=True, on_delete=models.SET_NULL)
-    manufacturer = models.CharField('Manufacturer', max_length=100, blank=True, null=True)
+    #manufacturer = models.CharField('Manufacturer', max_length=100, blank=True, null=True)
+    manufacturer = models.ForeignKey(Manufacturer, blank=True, null=True, on_delete=models.SET_NULL)
     description = models.CharField('Description', max_length=100, blank=True, null=True)
     primary_vendor = models.ForeignKey(Vendor, blank=True, null=True, on_delete=models.CASCADE)
     measurement = models.CharField('Measurement', max_length=100, blank=True, null=True)

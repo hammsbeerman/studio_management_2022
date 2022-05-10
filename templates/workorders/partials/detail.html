@@ -4,8 +4,8 @@ Contact: {{ object.contact }}
 
 <p>Description: {{ object.description}}<br/>
 Deadline: {{ object.deadline}}<br />
-Budget: {% if object.budget %}{{ object.budget}}{% endif %}<br />
-Quoted Price: {% if object.quoted_price %}{{object.quoted_price}}{% endif %}
+Budget: {% if object.budget %}${{ object.budget}}{% endif %}<br />
+Quoted Price: {% if object.quoted_price %}${{object.quoted_price}}{% endif %}
 <p>
 Services</p>
 <p>

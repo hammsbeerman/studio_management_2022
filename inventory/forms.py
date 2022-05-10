@@ -1,5 +1,10 @@
 from django import forms
-from .models import MasterPartNumber
+from .models import MasterPartNumber, Manufacturer
+
+class ManufacturerForm(forms.ModelForm):
+    class Meta:
+        model = Manufacturer
+        fields = ['name']
 
 class MPNForm(forms.ModelForm):
     required_css_class = 'required-field'

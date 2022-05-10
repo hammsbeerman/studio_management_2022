@@ -2,8 +2,8 @@ from django.urls import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import ProductCategory, MasterPartNumber
-from .forms import MPNForm
+from .models import ProductCategory, MasterPartNumber, Manufacturer
+from .forms import MPNForm, ManufacturerForm
 
 # Create your views here.
 
@@ -116,3 +116,13 @@ get subset where id=parentid
 list out all categories with that id
 link to add customer to parent id
 """
+
+#@login_required
+def manufacturer_create_view(request):
+    context = {}
+    if request.method == "POST":
+        name = request.POST.get("name")
+        Manufacturer.objects.create(name=name)
+        context['name'] = name
+        #return render(request, "inventory/manufacturer-list.html", context=context)
+    return render(request, "inventory/add-manufacturer.html", context=context)
