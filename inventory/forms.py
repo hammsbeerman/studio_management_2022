@@ -1,5 +1,5 @@
 from django import forms
-from .models import MasterPartNumber, Manufacturer
+from .models import MasterPartNumber, Manufacturer, Service, Inventory
 
 class ManufacturerForm(forms.ModelForm):
     class Meta:
@@ -32,3 +32,12 @@ class MPNForm(forms.ModelForm):
         #self.fields['description'].widget.attrs.update({'rows': '2'})
         #self.fields['directions'].widget.attrs.update({'rows': '4'})
 
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['name', 'category', 'master_part_number', 'description', 'price', 'measurement', 'active']
+
+class InventoryForm(forms.ModelForm):
+    class Meta:
+        model = Inventory
+        fields = ['name', 'description', 'category', 'master_part_number', 'price', 'measurement', 'inventory_qty', 'active']

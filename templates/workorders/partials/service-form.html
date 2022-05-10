@@ -1,7 +1,16 @@
 <form action='' method="POST" hx-post='{% if url %}{{ url }}{% else %}.{% endif %}' hx-swap='outerHTML'>
     {% csrf_token %}
     
-    {{ form.as_p }}
+    <!-- {{ form.as_p }} -->
+    {{ form.item.label_tag }}{{ form.item }}
+    <br />
+    {{ form.description.label_tag}}{{form.description}}
+    <br />
+    {{ form.billable_time.label_tag}}{{form.billable_time}}
+    <br />
+    {{ form.default_rate.label_tag}}{{form.default_rate}}
+    <br />
+    {{ form.custom_rate.label_tag}}{{form.custom_rate}}
 
  
     <div class='htmx-indicator'>Loading...</div>

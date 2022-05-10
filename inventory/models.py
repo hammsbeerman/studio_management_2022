@@ -81,7 +81,7 @@ class MasterPartNumber(models.Model):
 
 
 class Inventory(models.Model):
-    name = models.CharField('Name', max_length=100, blank=True, null=True)
+    name = models.CharField('Name', max_length=100, blank=True, null=True, unique=True)
     description = models.CharField('Description', max_length=100, blank=True, null=True)
     category = models.ForeignKey(ProductCategory, blank=True, null=True, on_delete=models.SET_NULL)
     #master_part_number = models.CharField('Master Part Number', max_length=100, blank=True, null=True)
@@ -119,7 +119,7 @@ class NonInventory(models.Model):
         return self.name
 
 class Service(models.Model):
-    name = models.CharField('Name', max_length=100, blank=False, null=False)
+    name = models.CharField('Name', max_length=100, blank=False, null=False, unique=True)
     category = models.ForeignKey(ProductCategory, blank=True, null=True, on_delete=models.SET_NULL)
     master_part_number = models.CharField('Master Part Number', max_length=100, blank=True, null=True)
     description = models.CharField('Description', max_length=100, blank=True, null=True)

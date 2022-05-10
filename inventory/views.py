@@ -2,8 +2,8 @@ from django.urls import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import ProductCategory, MasterPartNumber, Manufacturer
-from .forms import MPNForm, ManufacturerForm
+from .models import ProductCategory, MasterPartNumber, Manufacturer, Service, Inventory
+from .forms import MPNForm, ManufacturerForm, ServiceForm, InventoryForm
 
 # Create your views here.
 
@@ -126,3 +126,48 @@ def manufacturer_create_view(request):
         context['name'] = name
         #return render(request, "inventory/manufacturer-list.html", context=context)
     return render(request, "inventory/add-manufacturer.html", context=context)
+
+#@login_required
+def service_create_view(request):
+    form = ServiceForm(request.POST or None)
+    context = {
+        'form': form
+    }
+    if request.method == "POST":
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context['saved'] = "Service was added"
+            return render(request, "inventory/service-list.html", context)
+    return render(request, "inventory/add-service.html", context)
+
+#@login_required
+def service_list_view(request):
+    qs = Service.objects.all()
+    context = {
+        "object_list": qs
+    }
+    return render(request, "inventory/service-list.html", context)
+
+#@login_required
+def inventory_create_view(request):
+    form = InventoryForm(request.POST or None)
+    context = {
+        'form': form
+    }
+    if request.method == "POST":
+        form = InventoryeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context['saved'] = "Service was added"
+            return render(request, "inventory/inventory-list.html", context)
+    return render(request, "inventory/add-inventory.html", context)
+
+#@login_required
+def inventory_list_view(request):
+    qs = Inventory.objects.all()
+    context = {
+        "object_list": qs
+    }
+    return render(request, "inventory/inventory-list.html", context)
+
