@@ -156,7 +156,7 @@ def inventory_create_view(request):
         'form': form
     }
     if request.method == "POST":
-        form = InventoryeForm(request.POST)
+        form = InventoryForm(request.POST)
         if form.is_valid():
             form.save()
             context['saved'] = "Service was added"

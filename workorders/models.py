@@ -14,8 +14,8 @@ class Workorder(models.Model):
     contact = models.ForeignKey(Contact, blank=True, null=True, on_delete=models.SET_NULL)
     #company = models.OneToOneField(Customer, on_delete=models.CASCADE, blank=True, null=True)
     workorder = models.CharField('Workorder', max_length=100, blank=False, null=False, unique=True)
-    description = models.TextField('Description', max_length=100, blank=True, null=True)
-    deadline = models.CharField('Deadline', max_length=100, blank=True, null=True)
+    description = models.CharField('Description', max_length=100, blank=True, null=True)
+    deadline = models.DateField('Deadline', blank=True, null=True)
     budget = models.CharField('Budget', max_length=100, blank=True, null=True)
     quoted_price = models.CharField('Quoted Price', max_length=100, blank=True, null=True)
 

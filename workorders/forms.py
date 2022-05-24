@@ -59,7 +59,7 @@ class WorkorderForm(DynamicFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            print(field)
+            #print(field)
             new_data = {
                 "placeholder": f'{str(field)}',
                 "class": 'form-control',
@@ -71,7 +71,7 @@ class WorkorderForm(DynamicFormMixin, forms.ModelForm):
             self.fields[str(field)].widget.attrs.update(
                 new_data
             )
-        self.fields['description'].widget.attrs.update({'rows': '2'})
+        self.fields['description'].widget.attrs.update({'rows': '4'})
         #self.fields['directions'].widget.attrs.update({'rows': '4'})
         self.fields['contact'].label = ''
 
@@ -83,7 +83,7 @@ class WorkorderServiceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            print(field)
+            #print(field)
             new_data = {
                 "placeholder": f'{str(field)}',
                 "class": 'form-control',
@@ -100,7 +100,7 @@ class WorkorderInventoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            print(field)
+            #print(field)
             new_data = {
                 "placeholder": f'{str(field)}',
                 "class": 'form-control',
@@ -117,7 +117,7 @@ class WorkorderNonInventoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            print(field)
+            #print(field)
             new_data = {
                 "placeholder": f'{str(field)}',
                 "class": 'form-control',
