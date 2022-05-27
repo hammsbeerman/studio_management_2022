@@ -9,10 +9,18 @@ Quoted Price: {% if object.quoted_price %}${{object.quoted_price}}{% endif %}
 <p>
 Services</p>
 <p>
-{% for workorderservice in object.get_services_children %}
-    <li>{{ workorderservice.item }} Qty: {{workorderservice.billable_time }} Rate: {{ workorderservice.default_rate }} <br />
-    {{ workorderservice.description }}</li>
-{% endfor %}
+    <table class="table table-bordered">
+        <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Description</th>
+            <th>Line Total</th>
+        </tr>
+        {% for workorderservice in object.get_services_children %}
+        <tr><td>{{ workorderservice.item }}</td><td>{{workorderservice.billable_time }}</td><td>{% if workorderservice.custom_rate %}{{ workorderservice.custom_rate }} {% else %}{{ workorderservice.default_rate }}{% endif %}</td><td>{{ workorderservice.description }}</td></tr>
+    {% endfor %}
+    <table>
 <p>
 <p>Product</p>
 {% for workorderinventoryproduct in object.get_inventory_children %}
@@ -22,15 +30,3 @@ Services</p>
     <p> {{ workordernoninventoryproduct.item }} Qty: {{ workordernoninventoryproduct.qty }} Price: {{ workordernoninventoryproduct.price }} <br />
 {% endfor %}
 
-<table>
-    <tr>
-        <th>Item</th>
-        <th>Qty</th>
-        <th>Rate</th>
-        <th>Description</th>
-        <th>Line Total</th>
-    </tr>
-    {% for workorderservice in object.get_services_children %}
-    <tr><td>{{ workorderservice.item }}</td><td>{{workorderservice.billable_time }}</td><td>{{ workorderservice.default_rate }}</td><td>{{ workorderservice.description }}</td></tr>
-{% endfor %}
-<table>

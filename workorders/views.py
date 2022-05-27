@@ -127,6 +127,13 @@ def workorder_service_update_hx_view(request, parent_id= None, id=None):
         new_obj=form.save(commit=False)
         if instance is None:
             new_obj.workorder = parent_obj
+        cr = request.POST.get("custom_rate")
+        print(cr)
+        print(new_obj.custom_rate)
+        if cr != '':
+            cr = float(cr)
+            print('$' + format(cr, ',.2f'))
+            new_obj.custom_rate = cr
         new_obj.save()
         context['object'] = new_obj
         return render(request, "workorders/partials/service-inline.html", context)

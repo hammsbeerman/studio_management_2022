@@ -1,5 +1,5 @@
 from django import forms
-from .models import MasterPartNumber, Manufacturer, Service, Inventory
+from .models import MasterPartNumber, Manufacturer, Service, Inventory, ProductCategory
 
 class ManufacturerForm(forms.ModelForm):
     class Meta:
@@ -41,3 +41,8 @@ class InventoryForm(forms.ModelForm):
     class Meta:
         model = Inventory
         fields = ['name', 'description', 'category', 'master_part_number', 'price', 'measurement', 'inventory_qty', 'active']
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = ProductCategory
+        fields = ['type', 'parent', 'name']

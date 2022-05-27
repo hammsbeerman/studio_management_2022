@@ -1,1 +1,25 @@
 Customer add - 10 digit zipcode, force state
+
+
+Notes:
+Workorder Service Model layout
+App - Workorders
+Model - WorkorderService
+	Workorder
+	Item - Foreign Key to App/Service
+	Description
+	Billable Time
+	Default Rate
+	Custom Rate
+
+
+App - Inventory
+Model - Service
+	name
+	category
+	master_Part_Number
+	description
+	price
+	measurement
+	date_Added
+	active

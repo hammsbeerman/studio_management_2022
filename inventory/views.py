@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import ProductCategory, MasterPartNumber, Manufacturer, Service, Inventory
-from .forms import MPNForm, ManufacturerForm, ServiceForm, InventoryForm
+from .forms import CategoryForm, MPNForm, ManufacturerForm, ServiceForm, InventoryForm
 
 # Create your views here.
 
@@ -170,4 +170,11 @@ def inventory_list_view(request):
         "object_list": qs
     }
     return render(request, "inventory/inventory-list.html", context)
+
+def add_category_view(request):
+    form = CategoryForm(request.POST or None)
+    context = {
+        "form": form,
+    }
+    return render(request, "inventory/add-category.html", context)
 

@@ -44,10 +44,10 @@ class Workorder(models.Model):
 class WorkorderService(models.Model):
     workorder = models.ForeignKey(Workorder, blank=False, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Service, blank=True, null=True, on_delete=models.SET_NULL)
-    description = models.CharField('Description', max_length=100, blank=True, null=True)
-    billable_time = models.CharField('Billable Time', max_length=100, blank=True, null=True)
-    default_rate = models.CharField('Default Rate', max_length=100, blank=True, null=True)
-    custom_rate = models.CharField('Custom Rate', max_length=100, blank=True, null=True)
+    description = models.CharField('Description', max_length=200, blank=True, null=True)
+    billable_time = models.DecimalField('Billable Time', max_digits=10, decimal_places=2, blank=True, null=True)
+    default_rate = models.DecimalField('Default Rate', max_digits=10, decimal_places=2, blank=True, null=True)
+    custom_rate = models.DecimalField('Custom Rate', max_digits=10, decimal_places=2, blank=True, null=True)
 
     #def __str__(self):
     #    return self.item.name
