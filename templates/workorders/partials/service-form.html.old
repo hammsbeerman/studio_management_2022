@@ -1,0 +1,33 @@
+{% load widget_tweaks %}
+<form action='' method="POST" hx-post='{% if url %}{{ url }}{% else %}.{% endif %}' hx-swap='outerHTML'>
+    {% csrf_token %}
+    
+    <!-- {{ form.as_p }} -->
+     {{ form.item.label_tag }}{{ form.item }}
+    <!-- <br />
+    {{ form.item.label_tag }}
+    <select class="custom-select mb-4" name="item" hx-get="{% url 'workorders:service-detail' %}" hx-target="#service_detail">
+        <option value="" selected>Service</option>
+        {% for service in services %}
+            <option value="{{service.pk}}">{{ service.name }}</option>
+        {% endfor %}
+    </select>
+    <div name='service_detail'>
+    </div>
+    <br /> -->
+    {{ form.description.label_tag}}{{form.description}}
+    <br />
+    {{ form.billable_time.label_tag}}{{form.billable_time}}
+    <br />
+    <!-- {{ form.default_rate.label_tag}}{{form.default_rate}}
+    <br /> -->
+    Check if changing standard rate: <input type="checkbox" id="cr" name="cr" value="1">
+    <br />
+    {{ form.custom_rate.label_tag}}{{form.custom_rate}} 
+    
+
+ 
+    <div class='htmx-indicator'>Loading...</div>
+    <button class='html-inverted-indicator' style='margin-top:10px;' type='submit'>Save</button>
+
+</form>

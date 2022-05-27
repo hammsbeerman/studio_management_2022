@@ -21,3 +21,16 @@ Services</p>
 {% for workordernoninventoryproduct in object.get_noninventory_children %}
     <p> {{ workordernoninventoryproduct.item }} Qty: {{ workordernoninventoryproduct.qty }} Price: {{ workordernoninventoryproduct.price }} <br />
 {% endfor %}
+
+<table>
+    <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Description</th>
+        <th>Line Total</th>
+    </tr>
+    {% for workorderservice in object.get_services_children %}
+    <tr><td>{{ workorderservice.item }}</td><td>{{workorderservice.billable_time }}</td><td>{{ workorderservice.default_rate }}</td><td>{{ workorderservice.description }}</td></tr>
+{% endfor %}
+<table>

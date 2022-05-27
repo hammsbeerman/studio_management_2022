@@ -1,0 +1,15 @@
+{% load widget_tweaks %}
+<form action='' method="POST" hx-post='{% if url %}{{ url }}{% else %}.{% endif %}' hx-swap='outerHTML'>
+    {% csrf_token %}
+    
+    <div class="form-group mb-3">
+        <div id="service-detail"> 
+        {{ form.item.label_tag }}
+        {% render_field form.item class="form-control" hx-get="servicedetail" hx-trigger="change" hx-swap='innerHTML' hx-target='#service-detail' %}
+        </div>
+    </div>
+
+    <div class='htmx-indicator'>Loading...</div>
+    <button class='html-inverted-indicator' style='margin-top:10px;' type='submit'>Save</button>
+
+</form>

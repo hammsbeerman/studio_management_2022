@@ -9,13 +9,40 @@ admin.site.register(Inventory)
 
 admin.site.register(NonInventory)
 
-admin.site.register(Service)
-
 admin.site.register(ProductCategory)
 
 admin.site.register(MasterPartNumber)
 
-"""
+class ServiceAdmin(admin.ModelAdmin):
+    readonly_fields = [
+        'date_added'
+    ]
+
+
+
+
+admin.site.register(Service, ServiceAdmin)
+
+
+"""class ServiceAdmin(admin.ModelAdmin):
+    fields=[
+        'name',
+        'category',
+        'master_part_number',
+        'description',
+        'price',
+        'measurement',
+        'active'
+        ]
+
+    readonly_fields = [
+        'date_added'
+        ]
+    
+    class Meta:
+        model=Service
+
+
 class CustomerContactInline(admin.StackedInline):
     model = Contact
     extra = 0

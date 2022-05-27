@@ -1,0 +1,33 @@
+{% load widget_tweaks %}
+<div class="form-group mb-3">
+    {% if error %}{{ error }}{% endif %}
+    <div id="service-detail">
+    {{ form.item.label_tag }}
+    <!-- {% render_field form.item class="form-control" hx-get="servicedetail" hx-trigger="change" hx-swap='innerHTML' hx-target='#service-detail' %} -->
+    <select name='item' hx-get="servicedetail" hx-trigger="change" hx-swap='innerHTML' hx-target='#service-detail'>
+        <option value="{{object.pk}}" selected>{{object.name}}</option>
+        <option value="0">------</option>
+        {% for service in services %}
+            <option value="{{service.pk}}">{{ service.name }}</option>
+        {% endfor %}
+    </select>
+    </div>
+</div>
+<b>Default Rate: {{object.price}}</b>
+<input type="hidden" id="id_default_rate" name="default_rate" value="{{object.price}}">
+<p>
+{{form.custom_rate}} 
+<p>
+{{ form.description.label_tag }}
+{% render_field form.description class="form-control" value=object.description %}
+<br />
+<!--{{ form.default_rate.label_tag }}
+{% render_field form.default_rate class="form-control" value=object.price %} -->
+
+{{ form.billable_time.label_tag}} (In hours){{form.billable_time}}
+<br />
+<!-- {{ form.default_rate.label_tag}}{{form.default_rate}}
+<br /> -->
+<!--Check if changing standard rate: <input type="checkbox" id="cr" name="cr" value="1"> -->
+
+

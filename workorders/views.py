@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Workorder, WorkorderService, WorkorderInventoryProduct, WorkorderNonInventoryProduct
 from customers.models import Customer, Contact
+from inventory.models import Service
 from .forms import WorkorderForm, WorkorderServiceForm, WorkorderInventoryForm, WorkorderNonInventoryForm
 #from .forms import WorkorderDynamicForm
 
@@ -105,24 +106,22 @@ def workorder_service_update_hx_view(request, parent_id= None, id=None):
         parent_obj = None
     if parent_obj is  None:
         return HttpResponse("Not found.")
-
     instance = None
     if id is not None:
-        #print('1')
         try:
-            #print('2')
             instance = WorkorderService.objects.get(workorder=parent_obj, id=id)
         except:
-            #print('3')
             instance = None
     form = WorkorderServiceForm(request.POST or None, instance=instance)
     url = reverse("workorders:hx-service-create", kwargs={"parent_id": parent_obj.id})
+    services = Service.objects.all().order_by('-name')
     if instance:
         url = instance.get_hx_edit_url()
     context = {
         "url": url,
         "form": form,
-        "object": instance
+        "object": instance,
+        "services": services
     }
     if form.is_valid():
         new_obj=form.save(commit=False)
@@ -130,7 +129,9 @@ def workorder_service_update_hx_view(request, parent_id= None, id=None):
             new_obj.workorder = parent_obj
         new_obj.save()
         context['object'] = new_obj
-        return render(request, "workorders/partials/service-inline.html", context) 
+        return render(request, "workorders/partials/service-inline.html", context)
+    if id == None:
+        return render(request, "workorders/partials/service-add-form.html", context)
     return render(request, "workorders/partials/service-form.html", context)
 
 #@login_required
@@ -232,7 +233,7 @@ def create_base(request):
         customers = Customer.objects.all()
         context = {'customers': customers}
         return render(request, 'workorders/create-workorder.html', context)
-    #print(request.POST)
+    print(request.POST)
     if request.method == "POST":
         customer = request.POST.get("customer")
         contact = request.POST.get("contact")
@@ -301,3 +302,30 @@ def update_contact(request):
 #
 #    context = {'contacts': contacts}
 #    return render(request, 'workorders/partials/contact-update.html', context)
+def service_detail(request):
+    service = request.GET.get('item')
+    obj = Service.objects.filter(name=service)
+    context = {'objects': obj}
+    return render(request, 'workorders/partials/service-detail.html', context)
+
+def workorder_service_detail(request, id=None):
+    services = Service.objects.all().order_by('-name')
+    form = WorkorderServiceForm(request.POST or None)
+    item = request.GET.get('item')
+    if item == '0':
+        error = 'Please pick a Service'
+        print(error)
+        obj = ''
+        #return render(request, 'workorders/partials/service-detail.html', context)
+    if item != '0':
+        obj = Service.objects.get(id=item)
+        error = ''
+    #parent_obj = Workorder.objects.get(id=parent_id)
+    context = {
+        'object': obj,
+        'form': form,
+        'services': services,
+        'error': error
+    }
+    #print(obj.price)
+    return render(request, 'workorders/partials/service-detail.html', context)
