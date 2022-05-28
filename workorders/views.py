@@ -65,6 +65,7 @@ def workorder_detail_hx_view(request, id=None):
     context = {
         "object": obj
     }
+    #print (object.line_total_default)
     return render(request, "workorders/partials/detail.html", context) 
 
 #@login_required

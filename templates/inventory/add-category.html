@@ -1,14 +1,27 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
 <h1>Add Category</h1> 
+
+{% if saved %}{{ saved }}{% endif %}
 
 <br />
 <form action="" method=POST>
     {% csrf_token %}
 
-    {{ form.as_p }}
 
+    {% render_field form.type class="form-control" hx-get="getparent" hx-trigger="change" hx-swap='innerHTML' hx-target='#add-category' %}
+   
+    <div id="add-category">
+    {% render_field form.name placeholder='' %}
+        {{ form.name.label_tag }}{% render_field form.name placeholder=''  %}
+    <br/>
+    {{ form.parent.label_tag }}{% render_field form.parent placeholder='' %}
+    <p>
+    <p>
+
+    </div>
 
     <br>
     <input type ="submit" value="Submit" class="btn btn-secondary">

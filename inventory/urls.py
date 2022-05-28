@@ -13,6 +13,7 @@ from .views import (
     inventory_create_view,
     inventory_list_view,
     add_category_view,
+    get_parent_view,
 )
 
 app_name='inventory'
@@ -28,6 +29,7 @@ urlpatterns = [
     path("<int:id>/", mpn_detail_view, name='mpn-detail'),
     path("<int:id>/edit", mpn_update_view, name='mpn-update'),
     path("add-category/", add_category_view, name='add-category'),
+    path("add-category/getparent", get_parent_view, name='get-parent'),
     #path("", inventory_list_view, name='list'),
     #path("create/", customer_create_view, name='create'),
     #path("hx/<int:parent_id>/contacts/<int:id>/", customer_contact_update_hx_view, name='hx-contact-detail'),

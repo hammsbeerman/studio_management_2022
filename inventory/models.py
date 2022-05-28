@@ -56,6 +56,13 @@ class Manufacturer(models.Model):
     def __str__(self):
         return self.name
 
+class Measurement(models.Model):
+    name = models.CharField('Name', max_length=100, blank=False, null=False, unique=True)
+    abbreviation = models.CharField('Abbreviation', max_length=50, blank=True, null=True, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class MasterPartNumber(models.Model):
     internal_part_number = models.CharField('Master Part Number', blank=False, null=False, max_length=200)
     name = models.CharField('Name', max_length=100, blank=True, null=True)
@@ -64,7 +71,7 @@ class MasterPartNumber(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, blank=True, null=True, on_delete=models.SET_NULL)
     description = models.CharField('Description', max_length=100, blank=True, null=True)
     primary_vendor = models.ForeignKey(Vendor, blank=True, null=True, on_delete=models.CASCADE)
-    measurement = models.CharField('Measurement', max_length=100, blank=True, null=True)
+    measurement = models.ForeignKey(Measurement, blank=True, null=True, on_delete=models.SET_NULL)
     date_added = models.DateTimeField(auto_now = True, blank=False, null=False)
     date_updated = models.DateTimeField(auto_now = True, blank=False, null=False)
     active= models.BooleanField(default=True)
@@ -87,7 +94,7 @@ class Inventory(models.Model):
     #master_part_number = models.CharField('Master Part Number', max_length=100, blank=True, null=True)
     master_part_number = models.ForeignKey(MasterPartNumber, blank=True, null=True, on_delete=models.SET_NULL)
     price = models.CharField('Price', max_length=100, blank=True, null=True)
-    measurement = models.CharField('Measurement', max_length=100, blank=True, null=True)
+    measurement = models.ForeignKey(Measurement, blank=True, null=True, on_delete=models.SET_NULL)
     date_added = models.DateTimeField(auto_now = True, blank=False, null=False)
     inventory_qty = models.CharField('Inventory Qty', max_length=100, blank=True, null=True) #for corrected inventory count
     inventory_correction = models.CharField('Inventory Correction', max_length=100, blank=True, null=True) #amount +/- correction
@@ -111,7 +118,7 @@ class NonInventory(models.Model):
     master_part_number = models.CharField('Master Part Number', max_length=100, blank=True, null=True)
     description = models.CharField('Description', max_length=100, blank=True, null=True)
     price = models.CharField('Price', max_length=100, blank=True, null=True)
-    measurement = models.CharField('Measurement', max_length=100, blank=True, null=True)
+    measurement = models.ForeignKey(Measurement, blank=True, null=True, on_delete=models.SET_NULL)
     date_added = models.DateTimeField(auto_now = True, blank=False, null=False)
     active= models.BooleanField(default=True)
 
@@ -124,7 +131,7 @@ class Service(models.Model):
     master_part_number = models.CharField('Master Part Number', max_length=100, blank=True, null=True)
     description = models.CharField('Description', max_length=100, blank=True, null=True)
     price = models.CharField('Price', max_length=100, blank=True, null=True)
-    measurement = models.CharField('Measurement', max_length=100, blank=True, null=True)
+    measurement = models.ForeignKey(Measurement, blank=True, null=True, on_delete=models.SET_NULL)
     date_added = models.DateTimeField(auto_now = True, blank=False, null=False)
     active= models.BooleanField(default=True)
 

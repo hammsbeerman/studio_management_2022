@@ -176,5 +176,28 @@ def add_category_view(request):
     context = {
         "form": form,
     }
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            qs = ProductCategory.objects.filter(parent=None).order_by('parent')
+            saved = "Service was added"
+            context = {
+                "object_list": qs,
+                "saved": saved
+            }
+            return render(request, "inventory/category-list.html", context)
     return render(request, "inventory/add-category.html", context)
 
+def get_parent_view(request):
+    form = CategoryForm(request.POST or None)
+    cattype = request.GET.get("type")
+    print(cattype)
+    qs = ProductCategory.objects.filter(type=cattype)
+    print(qs)
+    #parent = ProductCategory.objects.all.filter(type=cattype)
+    context = {
+        "form": form,
+        "parent": qs,
+    }
+    return render(request, "inventory/partials/getparent.html", context)

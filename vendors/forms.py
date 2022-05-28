@@ -1,8 +1,10 @@
 from django import forms
 from .models import Vendor, VendorContact
+from localflavor.us.forms import USStateSelect
 
 class VendorForm(forms.ModelForm):
     required_css_class = 'required-field'
+    state = forms.CharField(widget=USStateSelect(), initial='WI')
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Vendor name"}))
     #active = forms.BooleanField(widget=forms.CheckboxInput(attrs={"default": "True"}))
     class Meta:

@@ -43,6 +43,7 @@ THIRD_PARTY_APPS = [
     'django_htmx',
     #'django-forms-dynamic',
     'widget_tweaks',
+    'localflavor',
 ]
 
 LOCAL_APPS = [

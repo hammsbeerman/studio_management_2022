@@ -1,0 +1,17 @@
+{% load widget_tweaks %}
+<div id="add-category">
+    {{ form.name.label_tag }}{% render_field form.name %}
+<br/>
+<p>
+<p>
+    {{ form.parent.label_tag }}
+
+
+<select name='parent' >
+    <!-- <option value="{{parent.pk}}" selected>{{parent.name}}</option>
+    <option value="0">------</option> -->
+    {% for parent in parent %}
+        <option value="{{parent.pk}}">{{ parent.name }}</option>
+    {% endfor %}
+</select>
+</div>

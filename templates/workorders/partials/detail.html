@@ -18,7 +18,7 @@ Services</p>
             <th>Line Total</th>
         </tr>
         {% for workorderservice in object.get_services_children %}
-        <tr><td>{{ workorderservice.item }}</td><td>{{workorderservice.billable_time }}</td><td>{% if workorderservice.custom_rate %}{{ workorderservice.custom_rate }} {% else %}{{ workorderservice.default_rate }}{% endif %}</td><td>{{ workorderservice.description }}</td></tr>
+        <tr><td>{{ workorderservice.item }}</td><td>{{workorderservice.billable_time }}</td><td>{% if workorderservice.custom_rate %}${{ workorderservice.custom_rate }} {% elif workorderservice.default_rate %}${{ workorderservice.default_rate }}{% endif %}</td><td>{{ workorderservice.description }}</td><td>{{ workorderservice.line_total_default }}</td></tr>
     {% endfor %}
     <table>
 <p>

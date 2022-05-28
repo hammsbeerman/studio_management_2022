@@ -61,6 +61,36 @@ class WorkorderService(models.Model):
             "id": self.id
         }
         return reverse("workorders:hx-workorder-service-detail", kwargs=kwargs)
+    
+    @property
+    def line_total_default(self):
+        if self.billable_time is None:
+            billable = 0
+        else:
+            billable = float(self.billable_time)
+        if self.custom_rate is None:
+            self.custom_rate = 0
+            if self.default_rate is None:
+                print(2)
+                self.default_rate = 0
+                rate = 0
+            else:
+                print(3)
+                rate = float(self.default_rate)
+        if self.custom_rate == 0:
+            print(4)
+            rate = float(self.default_rate)
+        else:
+            print(5)
+            rate = float(self.custom_rate)
+        line = billable * rate
+        line = '$' + format(line, ',.2f')
+        return line
+
+   # @property
+    #def Line_total_default(self):
+    #	line = self.default_rate * self.billable_time
+	#    return line_total_default
 
 class WorkorderInventoryProduct(models.Model):
     workorder = models.ForeignKey(Workorder, blank=False, null=True, on_delete=models.SET_NULL)
