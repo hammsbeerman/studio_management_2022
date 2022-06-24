@@ -1,19 +1,43 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
 <h1>Add Service Type</h1>
 
 
 <br />
-<form action="" method=POST>
-    {% csrf_token %}
+<div>
+    <form action="" method=POST>
+        {% csrf_token %}
 
-    {{ form.as_p }}
+        {{ form.name.label_tag }}{% render_field form.name %}
+        <p>
+        {{ form.category.label_tag }}
+        <select name= 'category' >
+            <!-- <option value="{{parent.pk}}" selected>{{parent.name}}</option>
+            <option value="0">------</option> -->
+            <option value=''>------</option>
+            {% for category in service_type %}
+                <option value="{{category.pk}}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
 
+        <br>
 
-    <br>
-    <input type ="submit" value="Submit" class="btn btn-secondary">
+        {{ form.master_part_number.label_tag }}{% render_field form.master_part_number%}
+        <br />
+        {{ form.description.label_tag}}{% render_field form.description %}
+        <br />
+        {{ form.measurement.label_tag}}{% render_field form.measurement %}
+        <br />
+        {{ form.active.label_tag}}{% render_field form.active %}
+        <p>
+        <input type ="submit" value="Submit" class="btn btn-secondary">
 
-</form>
+    </form>
+    <div id='typeahead-results'>
+    </div>
+</div>
 
 {% endblock content %}
+

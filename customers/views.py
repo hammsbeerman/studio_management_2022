@@ -4,7 +4,7 @@ from urllib.request import Request
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory #modelform for querysets
 from django.urls import reverse
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Customer, Contact
@@ -20,7 +20,10 @@ def customer_create_view(request):
     if form.is_valid():
         obj = form.save(commit=False)
         obj.user = request.user
-        obj.save()
+        try:
+            obj.save()
+        except:
+            return render(request, "customers/add-update.html")
         if request.htmx:
             headers = {
                 "HX-Redirect": obj.get_absolute_url()
@@ -122,3 +125,11 @@ def customer_contact_update_hx_view(request, parent_id= None, id=None):
         context['object'] = new_obj
         return render(request, "customers/partials/contact-inline.html", context) 
     return render(request, "customers/partials/contact-form.html", context)
+
+def autosuggest(request):
+    #print(request.GET)
+    query = request.GET.get('term')
+    qs = Customer.objects.filter(name__icontains=query)
+    mylist = []
+    mylist   += [x.name for x in qs]
+    return JsonResponse(mylist,safe=False)

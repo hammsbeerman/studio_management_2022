@@ -14,6 +14,11 @@ from .views import (
     inventory_list_view,
     add_category_view,
     get_parent_view,
+    add_measurement_view,
+    mpn_autosuggest,
+    manufacturer_autosuggest,
+    measurement_autosuggest,
+
 )
 
 app_name='inventory'
@@ -23,6 +28,7 @@ urlpatterns = [
     path("add-service/", service_create_view, name='add-service'),
     path("service-list/", service_list_view, name='service-list'),
     path("add-inventory/", inventory_create_view, name='add-inventory'),
+    path("add-measurement/", add_measurement_view, name='add-measurement'),
     path("inventory-list/", inventory_list_view, name='inventory-list'),
     path("mpn-list/", mpn_list_view, name='mpn-list'),
     path("mpn/<int:id>/", mpn_detail_hx_view, name='hx-mpn-detail'),
@@ -30,6 +36,9 @@ urlpatterns = [
     path("<int:id>/edit", mpn_update_view, name='mpn-update'),
     path("add-category/", add_category_view, name='add-category'),
     path("add-category/getparent", get_parent_view, name='get-parent'),
+    path("mpn-autosuggest/", mpn_autosuggest, name='mpn-autosuggest'),
+    path("manufacturer-autosuggest/", manufacturer_autosuggest, name='manufacturer-autosuggest'),
+    path("measurement-autosuggest/", measurement_autosuggest, name='measurement-autosuggest'),
     #path("", inventory_list_view, name='list'),
     #path("create/", customer_create_view, name='create'),
     #path("hx/<int:parent_id>/contacts/<int:id>/", customer_contact_update_hx_view, name='hx-contact-detail'),

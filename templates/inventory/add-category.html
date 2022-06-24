@@ -11,11 +11,11 @@
     {% csrf_token %}
 
 
-    {% render_field form.type class="form-control" hx-get="getparent" hx-trigger="change" hx-swap='innerHTML' hx-target='#add-category' %}
-   
+    {% render_field form.type placeholder='Category Type' class="form-control" hx-get="getparent" hx-trigger="change" hx-swap='innerHTML' hx-target='#add-category' %}
+   <br />
     <div id="add-category">
-    {% render_field form.name placeholder='' %}
-        {{ form.name.label_tag }}{% render_field form.name placeholder=''  %}
+    <!-- {% render_field form.name placeholder='' %}
+        {{ form.name.label_tag }}{% render_field form.name placeholder=''  %} -->
     <br/>
     {{ form.parent.label_tag }}{% render_field form.parent placeholder='' %}
     <p>

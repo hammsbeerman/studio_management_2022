@@ -32,9 +32,17 @@
     {% if titles %}
         <!-- Add Services-->
         <h3>Services:</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Description</th>
+                <th></th>
         {% for item in object.get_services_children %}
             {% include 'workorders/partials/service-inline.html' with object=item %}
         {% endfor %}
+        </table>
         {% if new_service_url %}
         <div id='service-create'>
 

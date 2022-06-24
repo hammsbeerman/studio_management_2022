@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>List of Services</h1> 
+<h1>Inventory List</h1> 
 
 {{ saved }}
 
-<a href="{% url 'inventory:add-service' %}">Add Service</a>
+<a href="{% url 'inventory:add-inventory' %}">Add Inventory Item</a>
 
 <p><ul>
     {% for x in  object_list %}

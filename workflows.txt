@@ -1,0 +1,30 @@
+Create Workorder
+    Add Customer *
+    Add Workorder # *Allow Edit in table
+        Add Service
+            Select Item
+                Create Item*
+                    Select Item Category * Needs to be limited to Service Items only
+                    Master Part Number * Possibly autofill?
+                    Description * Possibly autofill?
+                    Measurement
+                        Add Measurement*
+                            Create Typeahead Name*
+                            Force Unique Name and Abbreviation*
+        Add Inventory 
+            Select Item
+                Create Item
+                    Select Item Category * Needs to be limited to Service Items only
+                    Master Part Number * Possibly autofill?
+                    Description * Possibly autofill?
+                    Measurement
+                        Add Measurement*
+                            Create Typeahead Name*
+                            Force Unique Name and Abbreviation*
+        Add Non Inventory
+    List of Services
+        Service Item links don't go anywhere
+    Master Part Numbers
+        Only add MPN through add service or add inventory or add non inventory
+        Allow field for primary manufacturer
+        Allow field for primary vendor

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Inventory, NonInventory, Service, ProductCategory, MasterPartNumber, Manufacturer
+from .models import Inventory, Measurement, NonInventory, Service, ProductCategory, MasterPartNumber, Manufacturer
 
 admin.site.register(Manufacturer)
 
@@ -12,6 +12,8 @@ admin.site.register(NonInventory)
 admin.site.register(ProductCategory)
 
 admin.site.register(MasterPartNumber)
+
+admin.site.register(Measurement)
 
 class ServiceAdmin(admin.ModelAdmin):
     readonly_fields = [

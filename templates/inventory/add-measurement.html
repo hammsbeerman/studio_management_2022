@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Measurement</h1>
+{% if saved %}{{ saved }}{% endif %}
+<form action = '' method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br />
+    <input type='submit' value="Add Measurement" />
+
+
+</form>
+
+{% endblock content %}

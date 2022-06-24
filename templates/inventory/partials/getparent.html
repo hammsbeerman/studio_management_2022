@@ -10,6 +10,7 @@
 <select name='parent' >
     <!-- <option value="{{parent.pk}}" selected>{{parent.name}}</option>
     <option value="0">------</option> -->
+    <option value=''>------</option>
     {% for parent in parent %}
         <option value="{{parent.pk}}">{{ parent.name }}</option>
     {% endfor %}

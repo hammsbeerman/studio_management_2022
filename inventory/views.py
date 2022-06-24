@@ -1,9 +1,9 @@
 from django.urls import reverse
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import ProductCategory, MasterPartNumber, Manufacturer, Service, Inventory
-from .forms import CategoryForm, MPNForm, ManufacturerForm, ServiceForm, InventoryForm
+from .models import ProductCategory, MasterPartNumber, Manufacturer, Service, Inventory, Measurement
+from .forms import CategoryForm, MPNForm, ManufacturerForm, ServiceForm, InventoryForm, MeasurementForm
 
 # Create your views here.
 
@@ -130,8 +130,11 @@ def manufacturer_create_view(request):
 #@login_required
 def service_create_view(request):
     form = ServiceForm(request.POST or None)
+    service_type = ProductCategory.objects.filter(type='S')
+    print(service_type)
     context = {
-        'form': form
+        'form': form,
+        'service_type': service_type
     }
     if request.method == "POST":
         form = ServiceForm(request.POST)
@@ -152,8 +155,10 @@ def service_list_view(request):
 #@login_required
 def inventory_create_view(request):
     form = InventoryForm(request.POST or None)
+    inventory_type = ProductCategory.objects.filter(type='I')
     context = {
-        'form': form
+        'form': form,
+        'inventory_type': inventory_type
     }
     if request.method == "POST":
         form = InventoryForm(request.POST)
@@ -173,8 +178,10 @@ def inventory_list_view(request):
 
 def add_category_view(request):
     form = CategoryForm(request.POST or None)
+    obj = ProductCategory.objects.all()
     context = {
         "form": form,
+        "object": obj,
     }
     if request.method == "POST":
         form = CategoryForm(request.POST)
@@ -184,7 +191,8 @@ def add_category_view(request):
             saved = "Service was added"
             context = {
                 "object_list": qs,
-                "saved": saved
+                "saved": saved,
+                "object": obj,
             }
             return render(request, "inventory/category-list.html", context)
     return render(request, "inventory/add-category.html", context)
@@ -201,3 +209,44 @@ def get_parent_view(request):
         "parent": qs,
     }
     return render(request, "inventory/partials/getparent.html", context)
+
+def add_measurement_view(request):
+    form = MeasurementForm(request.POST or None)
+    context = {
+        "form": form,
+    }
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            saved = "Measurement was saved"
+            context = {
+                "saved": saved,
+                "form": form,
+            }
+    return render(request, "inventory/add-measurement.html", context)
+
+def mpn_autosuggest(request):
+    #print(request.GET)
+    query = request.GET.get('term')
+    qs = MasterPartNumber.objects.filter(internal_part_number__icontains=query)
+    mylist = []
+    mylist   += [x.internal_part_number for x in qs]
+    return JsonResponse(mylist,safe=False)
+
+def manufacturer_autosuggest(request):
+    #print(request.GET)
+    query = request.GET.get('term')
+    qs = Manufacturer.objects.filter(name__icontains=query)
+    print(qs)
+    mylist = []
+    mylist   += [x.name for x in qs]
+    return JsonResponse(mylist,safe=False)
+
+def measurement_autosuggest(request):
+    #print(request.GET)
+    query = request.GET.get('term')
+    qs = Measurement.objects.filter(name__icontains=query)
+    print(qs)
+    mylist = []
+    mylist   += [x.name for x in qs]
+    return JsonResponse(mylist,safe=False)

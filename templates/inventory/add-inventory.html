@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
 <h1>Add Inventory Item</h1>
@@ -7,10 +8,28 @@
 <form action="" method=POST>
     {% csrf_token %}
 
-    {{ form.as_p }}
-
+    {{ form.name.label_tag }}{% render_field form.name %}
+    <p>
+    {{ form.category.label_tag }}
+    <select name= 'category' >
+        <!-- <option value="{{parent.pk}}" selected>{{parent.name}}</option>
+        <option value="0">------</option> -->
+        <option value=''>------</option>
+        {% for category in inventory_type %}
+            <option value="{{category.pk}}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
 
     <br>
+
+    {{ form.master_part_number.label_tag }}{% render_field form.master_part_number %}
+    <br />
+    {{ form.description.label_tag}}{% render_field form.description %}
+    <br />
+    {{ form.measurement.label_tag}}{% render_field form.measurement %}
+    <br />
+    {{ form.active.label_tag}}{% render_field form.active %}
+    <p>
     <input type ="submit" value="Submit" class="btn btn-secondary">
 
 </form>

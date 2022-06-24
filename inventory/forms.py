@@ -1,5 +1,5 @@
 from django import forms
-from .models import MasterPartNumber, Manufacturer, Service, Inventory, ProductCategory
+from .models import MasterPartNumber, Manufacturer, Measurement, Service, Inventory, ProductCategory
 
 class ManufacturerForm(forms.ModelForm):
     class Meta:
@@ -9,6 +9,7 @@ class ManufacturerForm(forms.ModelForm):
 class MPNForm(forms.ModelForm):
     required_css_class = 'required-field'
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Customer name"}))
+    #internal_part_number = forms.CharField(widget=forms.TextInput(attrs={"id": "tags"}))
     #active = forms.BooleanField(widget=forms.CheckboxInput(attrs={"default": "True"}))
     class Meta:
         model = MasterPartNumber
@@ -46,3 +47,9 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = ProductCategory
         fields = ['type', 'parent', 'name']
+
+class MeasurementForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={"id": "measurement"}))
+    class Meta:
+        model = Measurement
+        fields = ['name', 'abbreviation']

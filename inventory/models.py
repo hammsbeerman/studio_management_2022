@@ -60,6 +60,9 @@ class Measurement(models.Model):
     name = models.CharField('Name', max_length=100, blank=False, null=False, unique=True)
     abbreviation = models.CharField('Abbreviation', max_length=50, blank=True, null=True, unique=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -137,3 +140,11 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ["category", "name"]
+
+    #class Meta:
+    #    ordering = ["category", "-name"]
+
+    

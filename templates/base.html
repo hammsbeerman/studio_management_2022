@@ -61,6 +61,35 @@
     </div>
 
 
+    <!-- Autocomplete fields 
+      https://www.youtube.com/watch?v=aHzN92LqWf0 -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			  crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+
+        $( "#id_internal_part_number" ).autocomplete({
+          source: "{% url 'inventory:mpn-autosuggest' %}"
+        });
+
+        $( "#id_name" ).autocomplete({
+          source: "{% url 'customers:name-autosuggest' %}"
+        });
+
+        $( "#manufacturer" ).autocomplete({
+          source: "{% url 'inventory:manufacturer-autosuggest' %}"
+        });
+
+        $( "#measurement" ).autocomplete({
+          source: "{% url 'inventory:measurement-autosuggest' %}"
+        });
+
+      </script>
+    <!-- End of Autcomplete -->
 
     <!-- Optional JavaScript; choose one of the two! -->
 

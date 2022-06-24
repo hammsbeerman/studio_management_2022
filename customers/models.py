@@ -19,7 +19,7 @@ Customers
 """
 
 class Customer(models.Model):
-    name = models.CharField('Name', max_length=100, blank=False, null=False)
+    name = models.CharField('Name', max_length=100, blank=False, null=False, unique=True)
     address1 = models.CharField('Address 1', max_length=100, blank=True, null=True)
     address2 = models.CharField('Adddress 2', max_length=100, blank=True, null=True)
     city = models.CharField('City', max_length=100, null=True)
