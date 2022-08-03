@@ -1,0 +1,31 @@
+{% load widget_tweaks %}
+<div class="form-group mb-3">
+    {% if error %}{{ error }}{% endif %}
+    <div id="inventory-detail">
+    {{ form.item.label_tag }}
+    <!-- {% render_field form.item class="form-control" hx-get="inventorydetail" hx-trigger="change" hx-swap='innerHTML' hx-target='#inventory-detail' %} -->
+    <select name='item' hx-get="inventorydetail" hx-trigger="change" hx-swap='innerHTML' hx-target='#inventory-detail'>
+        <option value="{{object.pk}}" selected>{{object.name}}</option>
+        <option value="0">------</option>
+        {% for inventory in inventorys %}
+            <option value="{{inventory.pk}}">{{ inventory.name }}</option>
+        {% endfor %}
+    </select>
+    </div>
+</div>
+<b>Default Rate: {{object.price}}</b> {{object.measurement}}
+<input type="hidden" id="id_default_rate" name="default_rate" value="{{object.price}}">
+<p>
+{{form.custom_rate}} 
+<p>
+{{ form.description.label_tag }}
+{% render_field form.description class="form-control" value=object.description %}
+<br />
+<!--{{ form.default_rate.label_tag }}
+{% render_field form.default_rate class="form-control" value=object.price %} -->
+
+{{ form.qty.label_tag}} {{form.qty}}
+<br />
+<!-- {{ form.default_rate.label_tag}}{{form.default_rate}}
+<br /> -->
+<!--Check if changing standard rate: <input type="checkbox" id="cr" name="cr" value="1"> -->

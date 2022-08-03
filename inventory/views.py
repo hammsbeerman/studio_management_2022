@@ -155,10 +155,13 @@ def service_list_view(request):
 #@login_required
 def inventory_create_view(request):
     form = InventoryForm(request.POST or None)
+    new_mpn_url = reverse("inventory:add-mpn")
+    #new_mpn_url = reverse("inventory:create-mpn")
     inventory_type = ProductCategory.objects.filter(type='I')
     context = {
         'form': form,
-        'inventory_type': inventory_type
+        'inventory_type': inventory_type,
+        'new_mpn_url': new_mpn_url
     }
     if request.method == "POST":
         form = InventoryForm(request.POST)
@@ -166,6 +169,8 @@ def inventory_create_view(request):
             form.save()
             context['saved'] = "Service was added"
             return render(request, "inventory/inventory-list.html", context)
+    #if request.htmx:
+        #return render(request, "inventory/partials/forms.html", context)
     return render(request, "inventory/add-inventory.html", context)
 
 #@login_required
@@ -250,3 +255,20 @@ def measurement_autosuggest(request):
     mylist = []
     mylist   += [x.name for x in qs]
     return JsonResponse(mylist,safe=False)
+
+def add_mpn(request):
+    form = MPNForm(request.POST or None)
+    context = {
+        "form": form
+    }
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.user = request.user
+        obj.save()
+        if request.htmx:
+            headers = {
+                "HX-Redirect": obj.get_absolute_url()
+            }
+            return HttpResponse("Created", headers=headers)
+        return redirect(obj.get_absolute_url())
+    return render(request, "inventory/partials/add-mpn.html", context)

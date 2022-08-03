@@ -52,13 +52,21 @@
         <button hx-get="{{ new_service_url }}" hx-trigger='click' hx-target='#service-create' hx-swap='beforeend'>Add Service</button>
         {% endif %}
 
-        <!-- Add Inventory Items-->
+        <!-- Add Inventory Items -->
         <p>
         <p>
         <h3>Inventory Items:</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Description</th>
+                <th></th>
         {% for item in object.get_inventory_children %}
             {% include 'workorders/partials/inventory-inline.html' with object=item %}
         {% endfor %}
+        </table>
         {% if new_inventory_url %}
         <div id='inventory-create'>
 

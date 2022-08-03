@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Workorder, WorkorderService, WorkorderInventoryProduct, WorkorderNonInventoryProduct
 from customers.models import Customer, Contact
-from inventory.models import Service
+from inventory.models import Service, Inventory
 from .forms import WorkorderForm, WorkorderServiceForm, WorkorderInventoryForm, WorkorderNonInventoryForm
 #from .forms import WorkorderDynamicForm
 
@@ -142,7 +142,7 @@ def workorder_service_update_hx_view(request, parent_id= None, id=None):
         return render(request, "workorders/partials/service-add-form.html", context)
     return render(request, "workorders/partials/service-form.html", context)
 
-#@login_required
+"""#@login_required
 def workorder_inventory_update_hx_view(request, parent_id= None, id=None):
     if not request.htmx:
         raise Http404
@@ -178,6 +178,46 @@ def workorder_inventory_update_hx_view(request, parent_id= None, id=None):
         new_obj.save()
         context['object'] = new_obj
         return render(request, "workorders/partials/inventory-inline.html", context) 
+    return render(request, "workorders/partials/inventory-form.html", context)
+"""
+
+def workorder_inventory_update_hx_view(request, parent_id= None, id=None):
+    if not request.htmx:
+        raise Http404
+    try:
+        parent_obj = Workorder.objects.get(id=parent_id)
+    except:
+        parent_obj = None
+    if parent_obj is  None:
+        return HttpResponse("Not found.")
+    instance = None
+    if id is not None:
+        try:
+            instance = WorkorderInventoryProduct.objects.get(workorder=parent_obj, id=id)
+        except:
+            instance = None
+    form = WorkorderInventoryForm(request.POST or None, instance=instance)
+    url = reverse("workorders:hx-inventory-create", kwargs={"parent_id": parent_obj.id})
+	#
+    inventorys = Inventory.objects.all().order_by('-name')
+    if instance:
+        url = instance.get_hx_edit_url()
+    context = {
+        "url": url,
+        "form": form,
+        "object": instance,
+		#
+        "inventorys": inventorys
+    }
+    if form.is_valid():
+        new_obj=form.save(commit=False)
+        if instance is None:
+            new_obj.workorder = parent_obj
+        new_obj.save()
+        context['object'] = new_obj
+        return render(request, "workorders/partials/inventory-inline.html", context)
+    if id == None:
+        return render(request, "workorders/partials/inventory-add-form.html", context)
     return render(request, "workorders/partials/inventory-form.html", context)
 
 
@@ -316,6 +356,12 @@ def service_detail(request):
     context = {'objects': obj}
     return render(request, 'workorders/partials/service-detail.html', context)
 
+def inventory_detail(request):
+    inventory = request.GET.get('item')
+    obj = Inventory.objects.filter(name=inventory)
+    context = {'objects': obj}
+    return render(request, 'workorders/partials/inventory-detail.html', context)
+
 def workorder_service_detail(request, id=None):
     services = Service.objects.all().order_by('-name')
     form = WorkorderServiceForm(request.POST or None)
@@ -337,3 +383,25 @@ def workorder_service_detail(request, id=None):
     }
     #print(obj.price)
     return render(request, 'workorders/partials/service-detail.html', context)
+
+def workorder_inventory_detail(request, id=None):
+    inventorys = Inventory.objects.all().order_by('-name')
+    form = WorkorderInventoryForm(request.POST or None)
+    item = request.GET.get('item')
+    if item == '0':
+        error = 'Please pick an Item'
+        print(error)
+        obj = ''
+        #return render(request, 'workorders/partials/service-detail.html', context)
+    if item != '0':
+        obj = Inventory.objects.get(id=item)
+        error = ''
+    #parent_obj = Workorder.objects.get(id=parent_id)
+    context = {
+        'object': obj,
+        'form': form,
+        'inventorys': inventorys,
+        'error': error
+    }
+    #print(obj.price)
+    return render(request, 'workorders/partials/inventory-detail.html', context)

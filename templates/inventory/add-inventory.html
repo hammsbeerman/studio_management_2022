@@ -10,6 +10,7 @@
 
     {{ form.name.label_tag }}{% render_field form.name %}
     <p>
+        <p>
     {{ form.category.label_tag }}
     <select name= 'category' >
         <!-- <option value="{{parent.pk}}" selected>{{parent.name}}</option>
@@ -20,14 +21,21 @@
         {% endfor %}
     </select>
 
-    <br>
+    <p>
 
-    {{ form.master_part_number.label_tag }}{% render_field form.master_part_number %}
-    <br />
+    {{ form.master_part_number.label_tag }}{% render_field form.master_part_number %} <a href="{% url 'inventory:create-mpn' %}">Add Master Part Number</a>
+    
+    {% if new_mpn_url %}
+    <div id='mpn-create'>
+
+    </div>
+    <button hx-get="{{ new_mpn_url }}" hx-trigger='click' hx-target='#mpn-create' hx-swap='beforeend'>Add Master Part Number</button>
+    {% endif %}
+    <p>
     {{ form.description.label_tag}}{% render_field form.description %}
-    <br />
+    <p>
     {{ form.measurement.label_tag}}{% render_field form.measurement %}
-    <br />
+    <p>
     {{ form.active.label_tag}}{% render_field form.active %}
     <p>
     <input type ="submit" value="Submit" class="btn btn-secondary">

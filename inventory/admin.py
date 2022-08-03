@@ -11,8 +11,6 @@ admin.site.register(NonInventory)
 
 admin.site.register(ProductCategory)
 
-admin.site.register(MasterPartNumber)
-
 admin.site.register(Measurement)
 
 class ServiceAdmin(admin.ModelAdmin):
@@ -20,7 +18,13 @@ class ServiceAdmin(admin.ModelAdmin):
         'date_added'
     ]
 
+class MasterPartNumberAdmin(admin.ModelAdmin):
+    readonly_fields = [
+        'date_added',
+        'date_updated'
+    ]
 
+admin.site.register(MasterPartNumber, MasterPartNumberAdmin)
 
 
 admin.site.register(Service, ServiceAdmin)

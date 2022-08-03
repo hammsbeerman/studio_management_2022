@@ -18,6 +18,7 @@ from .views import (
     mpn_autosuggest,
     manufacturer_autosuggest,
     measurement_autosuggest,
+    add_mpn
 
 )
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path("add-service/", service_create_view, name='add-service'),
     path("service-list/", service_list_view, name='service-list'),
     path("add-inventory/", inventory_create_view, name='add-inventory'),
+    path("add-inventory/add-mpn", add_mpn, name='add-mpn'),
     path("add-measurement/", add_measurement_view, name='add-measurement'),
     path("inventory-list/", inventory_list_view, name='inventory-list'),
     path("mpn-list/", mpn_list_view, name='mpn-list'),

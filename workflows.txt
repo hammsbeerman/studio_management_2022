@@ -1,10 +1,12 @@
 Create Workorder
-    Add Customer *
+    Add Customer 
+        Error when adding non unique customer
     Add Workorder # *Allow Edit in table
         Add Service
             Select Item
                 Create Item*
-                    Select Item Category * Needs to be limited to Service Items only
+                    Select Item Category * Needs to be limited to Service Items only *
+                        Need to limit to active items only
                     Master Part Number * Possibly autofill?
                     Description * Possibly autofill?
                     Measurement
@@ -28,3 +30,16 @@ Create Workorder
         Only add MPN through add service or add inventory or add non inventory
         Allow field for primary manufacturer
         Allow field for primary vendor
+
+Internal Part Number
+Name
+Category Type (Service, Inventory, Non Inventory)
+Category
+Manufacturer
+Description
+Primary Vendor
+Measurement
+Date Added
+Date Updated
+Active
+Price - Inventory, NonInventory, Service

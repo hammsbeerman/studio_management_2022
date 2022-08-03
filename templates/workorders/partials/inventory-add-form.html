@@ -1,0 +1,15 @@
+{% load widget_tweaks %}
+<form action='' method="POST" hx-post='{% if url %}{{ url }}{% else %}.{% endif %}' hx-swap='outerHTML'>
+    {% csrf_token %}
+    
+    <div class="form-group mb-3">
+        <div id="inventory-detail"> 
+        {{ form.item.label_tag }}
+        {% render_field form.item class="form-control" hx-get="inventorydetail" hx-trigger="change" hx-swap='innerHTML' hx-target='#inventory-detail' %}
+        </div>
+    </div>
+
+    <div class='htmx-indicator'>Loading...</div>
+    <button class='html-inverted-indicator' style='margin-top:10px;' type='submit'>Save</button>
+
+</form>
