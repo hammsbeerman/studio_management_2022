@@ -1,9 +1,10 @@
 <div id="inventory-{{ object.id }}">
     <tr>
         <td>{{ object.item }}</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{{ object.qty }}</td>
+        <td>{{ object.measurement }}</td>
+        <td>{{ object.price}} </td>
+        <td>{{ object.description}}</td>
         <td><button hx-trigger='click' hx-get='{{ object.get_hx_edit_url }}' hx-target="#inventory-{{ object.id }}">Edit</button></td>
     </tr>
 </div>

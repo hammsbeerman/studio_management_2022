@@ -5,7 +5,7 @@ from django.urls import reverse
 from inventory.utils import number_str_to_float
 from inventory.validators import validate_unit_of_measure
 from customers.models import Customer, Contact
-from inventory.models import NonInventory, Inventory, Service
+from inventory.models import NonInventory, Inventory, Service, Measurement
 #import pint
 
 # Create your models here.
@@ -28,6 +28,9 @@ class Workorder(models.Model):
 
     def get_edit_url(self): #reference these, that way changes are only made one place
         return reverse("workorders:update", kwargs={"id": self.id})
+
+    def get_delete_url(self): #reference these, that way changes are only made one place
+        return reverse("workorders:delete", kwargs={"id": self.id})
 
     def get_contacts_children(self):
         return self.contact_set.all()
@@ -54,6 +57,13 @@ class WorkorderService(models.Model):
 
     def get_absolute_url(self):
         return self.workorder.get_absolute_url()
+
+    """def get_delete_url(self): #reference these, that way changes are only made one place
+        kwargs = {
+            "parent_id": self.workorder.id,
+            "id": self.id
+        }
+        return reverse("workorders:delete", kwargs=kwargs)"""
     
     def get_hx_edit_url(self):
         kwargs = {
@@ -71,17 +81,17 @@ class WorkorderService(models.Model):
         if self.custom_rate is None:
             self.custom_rate = 0
             if self.default_rate is None:
-                print(2)
+                #print(2)
                 self.default_rate = 0
                 rate = 0
             else:
-                print(3)
+                #print(3)
                 rate = float(self.default_rate)
         if self.custom_rate == 0:
-            print(4)
+            #print(4)
             rate = float(self.default_rate)
         else:
-            print(5)
+            #print(5)
             rate = float(self.custom_rate)
         line = billable * rate
         line = '$' + format(line, ',.2f')
@@ -96,8 +106,13 @@ class WorkorderInventoryProduct(models.Model):
     workorder = models.ForeignKey(Workorder, blank=False, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Inventory, blank=True, null=True, on_delete=models.SET_NULL)
     description = models.CharField('Description', max_length=100, blank=True, null=True)
+    measurement = models.ForeignKey(Measurement, blank=True, null=True, on_delete=models.SET_NULL)
+    custom_measurement = models.ForeignKey(Measurement, related_name='+', blank=True, null=True, on_delete=models.SET_NULL)
+    #custom_measurement = models.CharField('Custom Measurement', max_length=100, blank=True, null=True)
     qty = models.CharField('Qty', max_length=100, blank=True, null=True)
     price = models.CharField('Price', max_length=100, blank=True, null=True)
+    custom_rate = models.DecimalField('Custom Rate', max_digits=10, decimal_places=2, blank=True, null=True)
+
 
     #def __str__(self):
     #    return self.item.name
@@ -112,12 +127,50 @@ class WorkorderInventoryProduct(models.Model):
         }
         return reverse("workorders:hx-workorder-inventory-detail", kwargs=kwargs)
 
+    @property
+    def line_total_default(self):
+        if self.qty is None:
+            amt = 0
+        else:
+            amt = float(self.qty)
+        if self.custom_rate is None:
+            self.custom_rate = 0
+            if self.price is None:
+                #print(2)
+                self.price = 0
+                rate = 0
+            else:
+                #print(3)
+                rate = float(self.price)
+        if self.custom_rate == 0:
+            #print(4)
+            rate = float(self.price)
+        else:
+            #print(5)
+            rate = float(self.custom_rate)
+        line = amt * rate
+        line = '$' + format(line, ',.2f')
+        return line
+
+    @property
+    def measure(self):
+        if self.custom_measurement is None:
+            measure = self.measurement
+        else:
+            measure = self.custom_measurement
+        return measure
+
+
+
 class WorkorderNonInventoryProduct(models.Model):
     workorder = models.ForeignKey(Workorder, blank=False, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(NonInventory, blank=True, null=True, on_delete=models.SET_NULL)
     description = models.CharField('Description', max_length=100, blank=True, null=True)
+    measurement = models.ForeignKey(Measurement, blank=True, null=True, on_delete=models.SET_NULL)
+    custom_measurement = models.ForeignKey(Measurement, related_name='+', blank=True, null=True, on_delete=models.SET_NULL)
     qty = models.CharField('Qty', max_length=100, blank=True, null=True)
     price = models.CharField('Price', max_length=100, blank=True, null=True)
+    custom_rate = models.DecimalField('Custom Rate', max_digits=10, decimal_places=2, blank=True, null=True)
 
     #def __str__(self):
     #    return self.item.name
@@ -131,3 +184,45 @@ class WorkorderNonInventoryProduct(models.Model):
             "id": self.id
         }
         return reverse("workorders:hx-workorder-noninventory-detail", kwargs=kwargs)
+
+    @property
+    def line_total_default(self):
+        if self.qty is None:
+            amt = 0
+        else:
+            amt = float(self.qty)
+        if self.custom_rate is None:
+            self.custom_rate = 0
+            if self.price is None:
+                #print(2)
+                self.price = 0
+                rate = 0
+            else:
+                #print(3)
+                rate = float(self.price)
+        if self.custom_rate == 0:
+            #print(4)
+            rate = float(self.price)
+        else:
+            #print(5)
+            rate = float(self.custom_rate)
+        line = amt * rate
+        line = '$' + format(line, ',.2f')
+        return line
+
+    @property
+    def measure(self):
+        if self.custom_measurement is None:
+            measure = self.measurement
+        else:
+            measure = self.custom_measurement
+            #measure = "<b>" + str(measure) +"</b>"
+        return measure
+
+class WorkorderInvoice(models.Model):
+    workorder = models.ForeignKey(Workorder, blank=False, null=True, on_delete=models.SET_NULL)
+    #item = models.ForeignKey(NonInventory, blank=True, null=True, on_delete=models.SET_NULL)
+    description = models.CharField('Description', max_length=100, blank=True, null=True)
+    invoice_image = models.ImageField(null=True, blank=True, upload_to="invoices/")
+
+

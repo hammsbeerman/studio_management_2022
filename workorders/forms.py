@@ -1,6 +1,6 @@
 from django.utils.safestring import mark_safe
 from django import forms
-from .models import Workorder, WorkorderService, WorkorderInventoryProduct, WorkorderNonInventoryProduct
+from .models import Workorder, WorkorderService, WorkorderInventoryProduct, WorkorderNonInventoryProduct, WorkorderInvoice
 from customers.models import Customer, Contact
 from dynamic_forms import DynamicField, DynamicFormMixin
 
@@ -49,7 +49,7 @@ class WorkorderServiceForm(forms.ModelForm):
 class WorkorderInventoryForm(forms.ModelForm):
     class Meta:
         model = WorkorderInventoryProduct
-        fields = ['item', 'description', 'qty', 'price']
+        fields = ['item', 'description', 'qty', 'price', 'measurement', 'custom_measurement', 'custom_rate']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -66,7 +66,7 @@ class WorkorderInventoryForm(forms.ModelForm):
 class WorkorderNonInventoryForm(forms.ModelForm):
     class Meta:
         model = WorkorderNonInventoryProduct
-        fields = ['item', 'description', 'qty', 'price']
+        fields = ['item', 'description', 'qty', 'price', 'measurement', 'custom_measurement', 'custom_rate']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -79,3 +79,8 @@ class WorkorderNonInventoryForm(forms.ModelForm):
             self.fields[str(field)].widget.attrs.update(
                 new_data
             )
+
+class WorkorderInvoiceForm(forms.ModelForm):
+    class Meta:
+        model = WorkorderInvoice
+        fields = ['description', 'invoice_image']

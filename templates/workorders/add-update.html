@@ -29,6 +29,13 @@
     {% include 'workorders/partials/forms.html' %}
     <p>
     <p>
+    <h3>Invoices:</h3>
+    <div id='invoice-add'>
+
+    </div>
+    <button hx-get="{{ new_invoice_url }}" hx-trigger='click' hx-target='#invoice-add' hx-swap='beforeend'>Add Invoice</button>
+    <p>
+    <p>
     {% if titles %}
         <!-- Add Services-->
         <h3>Services:</h3>
@@ -60,9 +67,11 @@
             <tr>
                 <th>Item</th>
                 <th>Qty</th>
-                <th>Rate</th>
+                <th>Measurement</th>
+                <th>Price ea</th>
                 <th>Description</th>
                 <th></th>
+            </tr>
         {% for item in object.get_inventory_children %}
             {% include 'workorders/partials/inventory-inline.html' with object=item %}
         {% endfor %}
@@ -80,9 +89,19 @@
         <p>
         <p>
         <h3>Non Inventory Items:</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Measurement</th>
+                <th>Price ea</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
         {% for item in object.get_noninventory_children %}
             {% include 'workorders/partials/noninventory-inline.html' with object=item %}
         {% endfor %}
+        </table>
         {% if new_noninventory_url %}
         <div id='noninventory-create'>
 

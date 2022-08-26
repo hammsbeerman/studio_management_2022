@@ -8,3 +8,4 @@ django-mptt
 django-forms-dynamic
 django-widget-tweaks
 django-localflavor
+pillow

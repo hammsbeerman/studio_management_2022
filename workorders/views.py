@@ -1,5 +1,6 @@
 from multiprocessing import parent_process
 from urllib.request import Request
+#from winreg import REG_WHOLE_HIVE_VOLATILE
 
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory #modelform for querysets
@@ -8,10 +9,10 @@ from django.http import Http404
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Workorder, WorkorderService, WorkorderInventoryProduct, WorkorderNonInventoryProduct
+from .models import Workorder, WorkorderService, WorkorderInventoryProduct, WorkorderNonInventoryProduct, WorkorderInvoice
 from customers.models import Customer, Contact
 from inventory.models import Service, Inventory
-from .forms import WorkorderForm, WorkorderServiceForm, WorkorderInventoryForm, WorkorderNonInventoryForm
+from .forms import WorkorderForm, WorkorderServiceForm, WorkorderInventoryForm, WorkorderNonInventoryForm, WorkorderInvoiceForm
 #from .forms import WorkorderDynamicForm
 
 # Create your views here.
@@ -52,6 +53,21 @@ def workorder_detail_view(request, id=None):
     return render(request, "workorders/detail.html", context)
 
 #@login_required
+def workorder_delete_view(request, id=None):
+    #hx_url = reverse("workorders:hx-detail", kwargs={"id": id})
+    obj = get_object_or_404(Workorder, id=id,)
+    if request.method == "POST":
+        obj.delete()
+        success_url = reverse('workorders:list')
+        return redirect(success_url)
+        #return render 
+    context = {
+        #"hx_url": hx_url
+        "object": obj
+    }
+    return render(request, "workorders/delete.html", context)
+
+#@login_required
 def workorder_detail_hx_view(request, id=None):
     if not request.htmx:
         #print("Here 1")
@@ -73,6 +89,7 @@ def workorder_update_view(request, id=None):
     obj = get_object_or_404(Workorder, id=id,)
     form = WorkorderForm(request.POST or None, instance=obj) #instance=obj fills the form with data
     titles = ('true')
+    new_invoice_url = reverse("workorders:hx-invoice-add", kwargs={"parent_id": obj.id})
     new_service_url = reverse("workorders:hx-service-create", kwargs={"parent_id": obj.id})
     new_inventory_url = reverse("workorders:hx-inventory-create", kwargs={"parent_id": obj.id})
     new_noninventory_url = reverse("workorders:hx-noninventory-create", kwargs={"parent_id": obj.id})
@@ -83,6 +100,7 @@ def workorder_update_view(request, id=None):
         #"formset": formset,
         "object": obj,
         "titles": titles,
+        "new_invoice_url": new_invoice_url,
         "new_service_url": new_service_url,
         "new_inventory_url": new_inventory_url,
         "new_noninventory_url": new_noninventory_url
@@ -258,6 +276,85 @@ def workorder_noninventory_update_hx_view(request, parent_id= None, id=None):
         context['object'] = new_obj
         return render(request, "workorders/partials/noninventory-inline.html", context) 
     return render(request, "workorders/partials/noninventory-form.html", context)
+
+#@login_required
+def workorder_invoice_update_hx_view(request, parent_id= None, id=None):
+    if not request.htmx:
+        raise Http404
+    try:
+        parent_obj = Workorder.objects.get(id=parent_id)
+    except:
+        parent_obj = None
+    if parent_obj is  None:
+        return HttpResponse("Not found.")
+
+    instance = None
+    if id is not None:
+        #print('1')
+        try:
+            #print('2')
+            instance = WorkorderInvoice.objects.get(workorder=parent_obj, id=id)
+        except:
+            #print('3')
+            instance = None
+    form = WorkorderInvoiceForm(request.POST or None, instance=instance)
+    url = reverse("workorders:hx-invoice-add", kwargs={"parent_id": parent_obj.id})
+    if instance:
+        url = instance.get_hx_edit_url()
+    context = {
+        "url": url,
+        "form": form,
+        "object": instance
+    }
+    if form.is_valid():
+        new_obj=form.save(commit=False)
+        if instance is None:
+            new_obj.workorder = parent_obj
+        new_obj.save()
+        context['object'] = new_obj
+        return render(request, "workorders/partials/invoice-inline.html", context) 
+    return render(request, "workorders/partials/invoice-form.html", context)
+
+"""
+#@login_required
+def workorder_invoice_add_hx_view(request, parent_id= None, id=None):
+    if not request.htmx:
+        raise Http404
+    try:
+        parent_obj = Workorder.objects.get(id=parent_id)
+    except:
+        parent_obj = None
+    if parent_obj is  None:
+        return HttpResponse("Not found.")
+
+    instance = None
+    if id is not None:
+        print('1')
+        try:
+            print('2')
+            instance = WorkorderInvoiceProduct.objects.get(workorder=parent_obj, id=id)
+        except:
+            print('3')
+            instance = None
+    form = WorkorderInvoiceForm(request.POST or None, instance=instance)
+    url = reverse("workorders:hx-invoice-add", kwargs={"parent_id": parent_obj.id})
+    if instance:
+        url = instance.get_hx_edit_url()
+    context = {
+        "url": url,
+        "form": form,
+        "object": instance
+    }
+    if form.is_valid():
+        new_obj=form.save(commit=False)
+        if instance is None:
+            new_obj.workorder = parent_obj
+        new_obj.save()
+        context['object'] = new_obj
+        return render(request, "workorders/partials/invoice-inline.html", context) 
+    return render(request, "workorders/partials/invoice-form.html", context)
+"""
+
 
 ##Attempt at HTMX Dropdown
 def customer(request):

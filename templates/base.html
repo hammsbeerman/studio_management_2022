@@ -5,20 +5,8 @@
 {% endblock %}
   <head>
     <script src="https://unpkg.com/htmx.org@1.7.0"></script>
-        <style>
-            .htmx-indicator{
-                display: none;
-            }
-            .htmx-request .htmx-indicator {
-                display: inline;
-            }
-            .htmx-inverted-indicator{
-                display: inline;
-            }
-            .htmx-request .htmx-inverted-indicator {
-                display: none;
-            }
-    </style>
+    <link rel='stylesheet' href='{% static "workorders/workorders-htmx.css" %}' />
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
